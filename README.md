@@ -2,11 +2,11 @@
 
 Fewer clicks to get clearin'
 
-![Screenshot](resources/img/plugin-logo.png)
+![Screenshot](http://g.recordit.co/zZFb0rS7i0.gif)
 
 ## Requirements
 
-This plugin requires Craft CMS 3.0.0-beta.23 or later.
+This plugin requires Craft CMS 3.0.0-RC1 or later.
 
 ## Installation
 
@@ -24,20 +24,12 @@ To install the plugin, follow these instructions.
 
 ## CP Clear Cache Overview
 
--Insert text here-
+CP Clear Cache adds a "Clear Caches" button to the main Control Panel nav – making it easier to quickly clear data and template caches from the CP.  
 
 ## Configuring CP Clear Cache
 
--Insert text here-
+Nothing to configure.
 
 ## Using CP Clear Cache
 
--Insert text here-
-
-## CP Clear Cache Roadmap
-
-Some things to do, and ideas for potential features:
-
-* Release it
-
-Brought to you by [Mats Mikkel Rummelhoff](https://vaersaagod.no)
+Click the "Clear Caches" menu button, check the caches you want to clear, and go for it.

@@ -24,7 +24,9 @@ To install the plugin, follow these instructions.
 
 ## CP Clear Cache Overview
 
-CP Clear Cache adds a "Clear Caches" button to the main Control Panel nav – making it easier to quickly clear data and template caches from the CP.  
+CP Clear Cache adds a "Clear Caches" button/nav item to the main Control Panel nav – making it easier to quickly clear data and template caches from the CP.  
+
+**Note that CP Clear Caches will only add the nav item for users who have access to the Clear Caches utility.** You can control access to this utility via the permissions settings under Settings -> Users.  
 
 ## Configuring CP Clear Cache
 

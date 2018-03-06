@@ -1,0 +1,40 @@
+{
+    "name": "mmikkel/cp-clearcache",
+    "description": "Fewer clicks to get clearin'",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "cp clear cache"
+    ],
+    "support": {
+        "docs": "https://github.com/mmikkel/CpClearCache-Craft/blob/master/README.md",
+        "issues": "https://github.com/mmikkel/CpClearCache-Craft/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mats Mikkel Rummelhoff",
+            "homepage": "https://vaersaagod.no"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0-RC1"
+    },
+    "autoload": {
+        "psr-4": {
+          "mmikkel\\cpclearcache\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "CP Clear Cache",
+        "handle": "cp-clearcache",
+        "hasCpSettings": false,
+        "hasCpSection": false,
+        "changelogUrl": "https://raw.githubusercontent.com/mmikkel/CpClearCache-Craft/master/CHANGELOG.md",
+        "class": "mmikkel\\cpclearcache\\CpClearCache"
+    }
+}

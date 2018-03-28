@@ -14,6 +14,7 @@ use Craft;
 use craft\base\Plugin;
 use craft\base\UtilityInterface;
 use craft\events\RegisterCpNavItemsEvent;
+use craft\services\Plugins;
 use craft\web\assets\utilities\UtilitiesAsset;
 use craft\web\twig\variables\Cp;
 use craft\web\View;
@@ -65,6 +66,22 @@ class CpClearCache extends Plugin
             return;
         }
 
+        // Handler: EVENT_AFTER_LOAD_PLUGINS
+        Event::on(
+            Plugins::class,
+            Plugins::EVENT_AFTER_LOAD_PLUGINS,
+            function () {
+                $this->doIt();
+            }
+        );
+
+    }
+
+    /**
+     *
+     */
+    protected function doIt()
+    {
         $utilitiesService = Craft::$app->getUtilities();
 
         /** @var UtilityInterface $clearCachesUtility */
@@ -80,6 +97,7 @@ class CpClearCache extends Plugin
         $data = [
             'html' => $clearCachesUtility::contentHtml(),
         ];
+
         Event::on(
             View::class,
             View::EVENT_BEFORE_RENDER_TEMPLATE,

@@ -120,7 +120,7 @@ class CpClearCache extends Plugin
         Event::on(Cp::class, Cp::EVENT_REGISTER_CP_NAV_ITEMS, function (RegisterCpNavItemsEvent $event) {
             $event->navItems['mmikkel/cpclearcache'] = [
                 'label' => \Craft::t('app', 'Clear Caches'),
-                'icon' => 'trash',
+                'fontIcon' => 'trash',
                 'url' => 'mmikkel/cpclearcache'
             ];
         });

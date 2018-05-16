@@ -8,15 +8,24 @@
 
         hud: null,
         $trigger: null,
+        localStorageKey: 'cpclearcache_selected',
+
+        onChange: function (e) {
+            Craft.setLocalStorage(this.localStorageKey, $.map($('input[type="checkbox"]:checked'), function (input) {
+                return input.value;
+            }));
+        },
 
         onClick: function (e) {
 
             e.preventDefault();
 
-            var $form = $(this.data.html);
+            $form = $(this.data.html);
             $form.attr('id', 'mmikkel-cpclearcache');
 
             if (!this.hud) {
+
+                var _self = this;
 
                 this.hud = new Garnish.HUD(this.$trigger, $form, {
                     orientations: ['top', 'bottom', 'right', 'left'],
@@ -24,7 +33,12 @@
                     onShow: function () {
                         Garnish.requestAnimationFrame(function () {
                             new Craft.ClearCachesUtility('mmikkel-cpclearcache');
-                            new Garnish.CheckboxSelect($('#mmikkel-cpclearcache .checkbox-select'));
+                            var $checkboxes = $('#mmikkel-cpclearcache .checkbox-select');
+                            new Garnish.CheckboxSelect($checkboxes);
+                            var checkedBoxes = Craft.getLocalStorage(_self.localStorageKey);
+                            $checkboxes.find('input[type="checkbox"]').each(function () {
+                                $(this).prop('checked', checkedBoxes === undefined || checkedBoxes.indexOf(this.value) > -1).trigger('change');
+                            });
                         });
                     }
                 });
@@ -47,6 +61,8 @@
             }
 
             this.$trigger.on('click', $.proxy(this.onClick, this));
+            
+            $('body').on('change', '#mmikkel-cpclearcache input[type="checkbox"]', $.proxy(this.onChange, this));
 
         }
 

@@ -1,6 +1,6 @@
 # CP Clear Cache plugin for Craft CMS 3.x
 
-Fewer clicks to get clearin'
+Less clickin’ to get clearin’
 
 ![Screenshot](http://g.recordit.co/zZFb0rS7i0.gif)
 

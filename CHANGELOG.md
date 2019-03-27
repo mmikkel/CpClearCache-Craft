@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.0.4 - 2019-03-27
+### Fixed
+- Fixes an issue where CP Clear Cache could conflict with other plugins
+
 ## 1.0.3 - 2018-11-23
 ### Improved
 – Improves plugin tagline (thanks Brandon!)

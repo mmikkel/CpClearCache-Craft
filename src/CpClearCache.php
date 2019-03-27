@@ -15,6 +15,7 @@ use craft\base\Plugin;
 use craft\base\UtilityInterface;
 use craft\events\RegisterCpNavItemsEvent;
 use craft\services\Plugins;
+use craft\web\Application;
 use craft\web\assets\utilities\UtilitiesAsset;
 use craft\web\twig\variables\Cp;
 use craft\web\View;
@@ -62,18 +63,11 @@ class CpClearCache extends Plugin
         parent::init();
         self::$plugin = $this;
 
-        if (!Craft::$app->getRequest()->getIsCpRequest() || Craft::$app->getRequest()->getIsConsoleRequest()) {
+        if (Craft::$app->getRequest()->getIsConsoleRequest() || !Craft::$app->getUser()->getIdentity() || !Craft::$app->getRequest()->getIsCpRequest()) {
             return;
         }
 
-        // Handler: EVENT_AFTER_LOAD_PLUGINS
-        Event::on(
-            Plugins::class,
-            Plugins::EVENT_AFTER_LOAD_PLUGINS,
-            function () {
-                $this->doIt();
-            }
-        );
+        Craft::$app->on(Application::EVENT_INIT, [$this, 'doIt']);
 
     }
 
@@ -94,20 +88,20 @@ class CpClearCache extends Plugin
         Craft::setAlias('@mmikkel/cpclearcache', __DIR__);
 
         // Register asset bundle
-        $data = [
-            'html' => $clearCachesUtility::contentHtml(),
-        ];
-
         Event::on(
             View::class,
-            View::EVENT_BEFORE_RENDER_TEMPLATE,
-            function () use ($data) {
+            View::EVENT_BEGIN_BODY,
+            function () use ($clearCachesUtility) {
                 try {
+                    $html = $clearCachesUtility::contentHtml();
+                    if (!$html) {
+                        return;
+                    }
                     $view = Craft::$app->getView();
                     $view->registerAssetBundle(UtilitiesAsset::class);
                     $view->registerAssetBundle(CpClearCacheBundle::class);
-                    $view->registerJs('if (Craft.CpClearCachePlugin) { Craft.CpClearCachePlugin.init(' . json_encode($data) . '); };');
-                } catch (InvalidConfigException $e) {
+                    $view->registerJs('if (Craft.CpClearCachePlugin) { Craft.CpClearCachePlugin.init(' . json_encode(['html' => $html]) . '); };', View::POS_READY);
+                } catch (\Throwable $e) {
                     Craft::error(
                         'Error registering AssetBundle - ' . $e->getMessage(),
                         __METHOD__

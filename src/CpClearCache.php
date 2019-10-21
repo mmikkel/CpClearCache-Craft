@@ -63,11 +63,20 @@ class CpClearCache extends Plugin
         parent::init();
         self::$plugin = $this;
 
-        if (Craft::$app->getRequest()->getIsConsoleRequest() || !Craft::$app->getUser()->getIdentity() || !Craft::$app->getRequest()->getIsCpRequest()) {
+        $request = Craft::$app->getRequest();
+
+        if (!$request->getIsCpRequest() || $request->getIsConsoleRequest()) {
             return;
         }
 
-        Craft::$app->on(Application::EVENT_INIT, [$this, 'doIt']);
+        // Handler: EVENT_AFTER_LOAD_PLUGINS
+        Event::on(
+            Plugins::class,
+            Plugins::EVENT_AFTER_LOAD_PLUGINS,
+            function () {
+                $this->doIt();
+            }
+        );
 
     }
 
@@ -76,6 +85,12 @@ class CpClearCache extends Plugin
      */
     protected function doIt()
     {
+
+        $user = Craft::$app->getUser();
+        if (!$user->id) {
+            return;
+        }
+
         $utilitiesService = Craft::$app->getUtilities();
 
         /** @var UtilityInterface $clearCachesUtility */

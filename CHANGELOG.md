@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.0.6 - 2020-02-02
+### Improved
+- Improves Craft 3.4 compatibility  
+
 ## 1.0.5 - 2019-10-21
 ### Fixed
 - Fixes an issue where CP Clear Cache could conflict with other plugins

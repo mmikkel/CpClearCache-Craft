@@ -10,7 +10,7 @@
         $trigger: null,
         localStorageKey: 'cpclearcache_selected',
 
-        onChange: function (e) {
+        onChange: function () {
             Craft.setLocalStorage(this.localStorageKey, $.map($('input[type="checkbox"]:checked'), function (input) {
                 return input.value;
             }));
@@ -20,8 +20,9 @@
 
             e.preventDefault();
 
-            $form = $(this.data.html);
+            var $form = $(this.data.html);
             $form.attr('id', 'mmikkel-cpclearcache');
+            $('.info', $form).infoicon();
 
             if (!this.hud) {
 
@@ -61,8 +62,13 @@
             }
 
             this.$trigger.on('click', $.proxy(this.onClick, this));
-            
-            $('body').on('change', '#mmikkel-cpclearcache input[type="checkbox"]', $.proxy(this.onChange, this));
+
+            $('body')
+                .on('change', '#mmikkel-cpclearcache input[type="checkbox"]', $.proxy(this.onChange, this))
+                .on('click', '#mmikkel-cpclearcache .info', e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
 
         }
 

@@ -27,7 +27,7 @@
             $('.info', $html).infoicon();
 
             $html.find('form').each(function (index) {
-                this.id = this.id || 'mmikkel-cpclearcache-form-' + index;
+                this.id = 'mmikkel-cpclearcache-form-' + index;
                 var $checkboxes = $(this).find('.checkbox-select');
                 new Garnish.CheckboxSelect($checkboxes);
                 var checkedBoxes = Craft.getLocalStorage(_this.localStorageKey);

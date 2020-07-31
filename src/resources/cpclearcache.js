@@ -26,7 +26,8 @@
             $html.attr('id', 'mmikkel-cpclearcache');
             $('.info', $html).infoicon();
 
-            $html.find('form').each(function () {
+            $html.find('form').each(function (index) {
+                this.id = this.id || 'mmikkel-cpclearcache-form-' + index;
                 var $checkboxes = $(this).find('.checkbox-select');
                 new Garnish.CheckboxSelect($checkboxes);
                 var checkedBoxes = Craft.getLocalStorage(_this.localStorageKey);
@@ -43,8 +44,7 @@
                     onShow: function () {
                         Garnish.requestAnimationFrame(function () {
                             $html.find('form').each(function () {
-                                var $form = $(this);
-                                new Craft.ClearCachesUtility($form.attr('id'));
+                                new Craft.ClearCachesUtility(this.id);
                             });
                         });
                     }

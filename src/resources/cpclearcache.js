@@ -30,7 +30,6 @@
                 var $checkboxes = $(this).find('.checkbox-select');
                 new Garnish.CheckboxSelect($checkboxes);
                 var checkedBoxes = Craft.getLocalStorage(_this.localStorageKey);
-                console.log({ checkedBoxes });
                 $checkboxes.find('input[type="checkbox"]').each(function () {
                     $(this).prop('checked', checkedBoxes === undefined || checkedBoxes.indexOf(this.value) > -1).trigger('change');
                 });

@@ -112,6 +112,7 @@ class CpClearCache extends Plugin
                     if (!$html) {
                         return;
                     }
+                    $html = "<div>$html</div>";
                     $view = Craft::$app->getView();
                     $view->registerAssetBundle(UtilitiesAsset::class);
                     $view->registerAssetBundle(CpClearCacheBundle::class);

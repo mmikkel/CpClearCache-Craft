@@ -32,7 +32,7 @@ class CpClearCacheBundle extends AssetBundle
         ];
 
         $this->css = [
-            'cpclearcache.css',
+            
         ];
 
         parent::init();

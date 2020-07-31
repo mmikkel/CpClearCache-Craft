@@ -11,7 +11,7 @@
         localStorageKey: 'cpclearcache_selected',
 
         onChange: function () {
-            Craft.setLocalStorage(this.localStorageKey, $.map($('input[type="checkbox"]:checked'), function (input) {
+            Craft.setLocalStorage(this.localStorageKey, $.map($('#mmikkel-cpclearcache input[type="checkbox"]:checked'), function (input) {
                 return input.value;
             }));
         },
@@ -20,32 +20,39 @@
 
             e.preventDefault();
 
-            var $form = $(this.data.html);
-            $form.attr('id', 'mmikkel-cpclearcache');
-            $('.info', $form).infoicon();
+            var _this = this;
+
+            var $html = $(this.data.html);
+            $html.attr('id', 'mmikkel-cpclearcache');
+            $('.info', $html).infoicon();
+
+            $html.find('form').each(function () {
+                var $checkboxes = $(this).find('.checkbox-select');
+                new Garnish.CheckboxSelect($checkboxes);
+                var checkedBoxes = Craft.getLocalStorage(_this.localStorageKey);
+                console.log({ checkedBoxes });
+                $checkboxes.find('input[type="checkbox"]').each(function () {
+                    $(this).prop('checked', checkedBoxes === undefined || checkedBoxes.indexOf(this.value) > -1).trigger('change');
+                });
+            });
 
             if (!this.hud) {
 
-                var _self = this;
-
-                this.hud = new Garnish.HUD(this.$trigger, $form, {
+                this.hud = new Garnish.HUD(this.$trigger, $html, {
                     orientations: ['top', 'bottom', 'right', 'left'],
                     hudClass: 'hud toolhud',
                     onShow: function () {
                         Garnish.requestAnimationFrame(function () {
-                            new Craft.ClearCachesUtility('mmikkel-cpclearcache');
-                            var $checkboxes = $('#mmikkel-cpclearcache .checkbox-select');
-                            new Garnish.CheckboxSelect($checkboxes);
-                            var checkedBoxes = Craft.getLocalStorage(_self.localStorageKey);
-                            $checkboxes.find('input[type="checkbox"]').each(function () {
-                                $(this).prop('checked', checkedBoxes === undefined || checkedBoxes.indexOf(this.value) > -1).trigger('change');
+                            $html.find('form').each(function () {
+                                var $form = $(this);
+                                new Craft.ClearCachesUtility($form.attr('id'));
                             });
                         });
                     }
                 });
 
             } else {
-                this.hud.updateBody($form);
+                this.hud.updateBody($html);
                 this.hud.show();
             }
 

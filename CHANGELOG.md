@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.1.0 - 2021-01-21  
+
+### Fixed  
+- Fixes an issue where CP Clear Cache would disable submit buttons in the Utilities section inside Craft's Control Panel  
+
+### Changed  
+- CP Clear Cache now requires Craft 3.5.0+  
+
 ## 1.0.7 - 2020-07-31  
 
 ### Improved  

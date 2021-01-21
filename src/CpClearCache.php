@@ -14,7 +14,9 @@ use Craft;
 use craft\base\Plugin;
 use craft\base\UtilityInterface;
 use craft\events\RegisterCpNavItemsEvent;
+use craft\helpers\ArrayHelper;
 use craft\services\Plugins;
+use craft\utilities\ClearCaches;
 use craft\web\Application;
 use craft\web\assets\utilities\UtilitiesAsset;
 use craft\web\twig\variables\Cp;
@@ -63,6 +65,9 @@ class CpClearCache extends Plugin
         parent::init();
         self::$plugin = $this;
 
+        // Register alias
+        Craft::setAlias('@mmikkel/cpclearcache', __DIR__);
+
         $request = Craft::$app->getRequest();
 
         if (!$request->getIsCpRequest() || $request->getIsConsoleRequest()) {
@@ -99,19 +104,13 @@ class CpClearCache extends Plugin
             return;
         }
 
-        // Register alias
-        Craft::setAlias('@mmikkel/cpclearcache', __DIR__);
-
         // Register asset bundle
         Event::on(
             View::class,
             View::EVENT_BEGIN_BODY,
-            function () use ($clearCachesUtility) {
+            function () {
                 try {
-                    $html = $clearCachesUtility::contentHtml();
-                    if (!$html) {
-                        return;
-                    }
+                    $html = $this->getClearCachesUtilityHtml();
                     $html = "<div>$html</div>";
                     $view = Craft::$app->getView();
                     $view->registerAssetBundle(UtilitiesAsset::class);
@@ -134,6 +133,42 @@ class CpClearCache extends Plugin
                 'url' => 'mmikkel/cpclearcache'
             ];
         });
+    }
+
+    /**
+     * @return string
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \yii\base\Exception
+     */
+    protected function getClearCachesUtilityHtml(): string
+    {
+        $cacheOptions = [];
+        $tagOptions = [];
+
+        foreach (ClearCaches::cacheOptions() as $cacheOption) {
+            $cacheOptions[] = [
+                'label' => $cacheOption['label'],
+                'value' => $cacheOption['key'],
+                'info' => $cacheOption['info'] ?? null,
+            ];
+        }
+
+        foreach (ClearCaches::tagOptions() as $tagOption) {
+            $tagOptions[] = [
+                'label' => $tagOption['label'],
+                'value' => $tagOption['tag'],
+            ];
+        }
+
+        ArrayHelper::multisort($cacheOptions, 'label');
+        $view = Craft::$app->getView();
+
+        return $view->renderTemplate('_components/utilities/ClearCaches', [
+            'cacheOptions' => $cacheOptions,
+            'tagOptions' => $tagOptions,
+        ]);
     }
 
 }

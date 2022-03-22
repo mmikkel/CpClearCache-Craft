@@ -45,14 +45,6 @@ class CpClearCache extends Plugin
      */
     public static $plugin;
 
-    // Public Properties
-    // =========================================================================
-
-    /**
-     * @var string
-     */
-    public $schemaVersion = '1.0.0';
-
     // Public Methods
     // =========================================================================
 

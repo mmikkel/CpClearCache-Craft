@@ -6,7 +6,7 @@ Less clickin’ to get clearin’
 
 ## Requirements
 
-This plugin requires Craft CMS 3.0.0-RC1 or later.
+This plugin requires Craft CMS 3.7.0 or later.
 
 ## Installation
 

@@ -15,7 +15,6 @@ use craft\base\Plugin;
 use craft\base\UtilityInterface;
 use craft\events\RegisterCpNavItemsEvent;
 use craft\helpers\ArrayHelper;
-use craft\services\Plugins;
 use craft\utilities\ClearCaches;
 use craft\web\Application;
 use craft\web\assets\utilities\UtilitiesAsset;
@@ -66,10 +65,9 @@ class CpClearCache extends Plugin
             return;
         }
 
-        // Handler: EVENT_AFTER_LOAD_PLUGINS
         Event::on(
-            Plugins::class,
-            Plugins::EVENT_AFTER_LOAD_PLUGINS,
+            Application::class,
+            Application::EVENT_INIT,
             function () {
                 $this->doIt();
             }

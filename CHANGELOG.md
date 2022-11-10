@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.3.0 - 2022-11-10
+### Fixed
+- Fixed an issue where CP Clear Cache wouldn't work properly if the Control Panel Navigation was installed  
+
 ## 1.2.1 - 2022-05-07
 ### Changed
 - CP Clear Cache now defers any element queries to the `craft\web\Application::EVENT_INIT` event, avoiding potential issues with element queries being executed before Craft has fully initialised.  

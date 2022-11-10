@@ -3,7 +3,7 @@
     if (!window.Craft || !window.jQuery) {
         return false;
     }
-    
+
     Craft.CpClearCachesUtility = Garnish.Base.extend(
     {
         init: function (formId) {
@@ -108,6 +108,7 @@
 
             e.preventDefault();
 
+            var $trigger = $(e.currentTarget);
             var _this = this;
 
             var $html = $(this.data.html);
@@ -124,24 +125,21 @@
                 });
             });
 
-            if (!this.hud) {
-
-                this.hud = new Garnish.HUD(this.$trigger, $html, {
-                    orientations: ['top', 'bottom', 'right', 'left'],
-                    hudClass: 'hud toolhud',
-                    onShow: function () {
-                        Garnish.requestAnimationFrame(function () {
-                            $html.find('form').each(function () {
-                                new Craft.CpClearCachesUtility(this.id);
-                            });
+            this.hud = new Garnish.HUD($trigger, $html, {
+                orientations: ['top', 'bottom', 'right', 'left'],
+                hudClass: 'hud toolhud',
+                onShow: function () {
+                    Garnish.requestAnimationFrame(function () {
+                        $html.find('form').each(function () {
+                            new Craft.CpClearCachesUtility(this.id);
                         });
-                    }
-                });
-
-            } else {
-                this.hud.updateBody($html);
-                this.hud.show();
-            }
+                    });
+                },
+                onHide: function () {
+                    _this.hud.destroy();
+                    _this.hud = null;
+                }
+            });
 
         },
 
@@ -149,13 +147,7 @@
 
             this.data = data;
 
-            this.$trigger = $('#nav-mmikkelcpclearcache a');
-
-            if (!this.$trigger.length) {
-                return;
-            }
-
-            this.$trigger.on('click', $.proxy(this.onClick, this));
+            $('body').on('click', '#nav a[href*="mmikkel/cpclearcache"]', $.proxy(this.onClick, this));
 
             $('body')
                 .on('change', '#mmikkel-cpclearcache input[type="checkbox"]', $.proxy(this.onChange, this))

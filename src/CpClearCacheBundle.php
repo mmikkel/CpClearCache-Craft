@@ -1,6 +1,6 @@
 <?php
 /**
- * CP Cache QuickMenu plugin for Craft CMS 3.x
+ * CP Cache QuickMenu plugin for Craft CMS 5.x
  *
  * Fewer clicks to get clearin'
  *
@@ -15,7 +15,7 @@ use craft\web\assets\cp\CpAsset;
 
 class CpClearCacheBundle extends AssetBundle
 {
-    public function init()
+    public function init(): void
     {
         // define the path that your publishable resources live
         $this->sourcePath = '@mmikkel/cpclearcache/resources';

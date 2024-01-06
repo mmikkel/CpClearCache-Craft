@@ -1,6 +1,6 @@
 <?php
 /**
- * CP Cache QuickMenu plugin for Craft CMS 3.x
+ * CP Cache QuickMenu plugin for Craft CMS 5.x
  *
  * Fewer clicks to get clearin'
  *
@@ -12,19 +12,15 @@ namespace mmikkel\cpclearcache;
 
 use Craft;
 use craft\base\Plugin;
-use craft\base\UtilityInterface;
 use craft\events\RegisterCpNavItemsEvent;
 use craft\helpers\ArrayHelper;
 use craft\utilities\ClearCaches;
-use craft\web\Application;
 use craft\web\assets\utilities\UtilitiesAsset;
 use craft\web\twig\variables\Cp;
 use craft\web\View;
 
 use yii\base\Event;
-use yii\base\InvalidConfigException;
-
-use mmikkel\cpclearcache\CpClearCacheBundle;
+use yii\web\View as ViewAlias;
 
 /**
  * Class CpClearCache
@@ -36,59 +32,47 @@ use mmikkel\cpclearcache\CpClearCacheBundle;
  */
 class CpClearCache extends Plugin
 {
-    // Static Properties
-    // =========================================================================
 
     /**
-     * @var CpClearCache
+     * @return void
      */
-    public static $plugin;
-
-    // Public Methods
-    // =========================================================================
-
-    /**
-     * @inheritdoc
-     */
-    public function init()
+    public function init(): void
     {
 
         parent::init();
-        self::$plugin = $this;
 
         // Register alias
         Craft::setAlias('@mmikkel/cpclearcache', __DIR__);
 
         $request = Craft::$app->getRequest();
 
-        if (!$request->getIsCpRequest() || $request->getIsConsoleRequest()) {
+        if (!$request->getIsCpRequest() || !$request->getIsGet() || $request->getIsLoginRequest() || $request->getIsConsoleRequest()) {
             return;
         }
 
-        Event::on(
-            Application::class,
-            Application::EVENT_INIT,
-            function () {
+        Craft::$app->onInit(function () {
+            try {
                 $this->doIt();
-            }
-        );
+            } catch (\Throwable $e) {
+                Craft::error($e, __METHOD__);
+            };
+        });
 
     }
 
     /**
-     *
+     * @return void
+     * @throws \Throwable
      */
-    protected function doIt()
+    protected function doIt(): void
     {
 
-        $user = Craft::$app->getUser();
-        if (!$user->id) {
+        if (!Craft::$app->getUser()->getIdentity()) {
             return;
         }
 
+        // Get the Clear Caches utility and check that the current user has access to it
         $utilitiesService = Craft::$app->getUtilities();
-
-        /** @var UtilityInterface $clearCachesUtility */
         $clearCachesUtility = $utilitiesService->getUtilityTypeById('clear-caches');
         if ($clearCachesUtility === null || $utilitiesService->checkAuthorization($clearCachesUtility) === false) {
             return;
@@ -97,10 +81,10 @@ class CpClearCache extends Plugin
         // Register asset bundle
         Event::on(
             View::class,
-            View::EVENT_BEGIN_BODY,
+            ViewAlias::EVENT_BEGIN_BODY,
             function () {
                 try {
-                    $html = $this->getClearCachesUtilityHtml();
+                    $html = $this->_getClearCachesUtilityHtml();
                     $html = "<div>$html</div>";
                     $view = Craft::$app->getView();
                     $view->registerAssetBundle(UtilitiesAsset::class);
@@ -132,7 +116,7 @@ class CpClearCache extends Plugin
      * @throws \Twig\Error\SyntaxError
      * @throws \yii\base\Exception
      */
-    protected function getClearCachesUtilityHtml(): string
+    private function _getClearCachesUtilityHtml(): string
     {
         $cacheOptions = [];
         $tagOptions = [];

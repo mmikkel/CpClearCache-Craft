@@ -46,7 +46,7 @@ class CpClearCache extends Plugin
 
         $request = Craft::$app->getRequest();
 
-        if (!$request->getIsCpRequest() || !$request->getIsGet() || $request->getIsLoginRequest() || $request->getIsConsoleRequest()) {
+        if (!$request->getIsCpRequest() || !$request->getIsGet() || $request->getIsLoginRequest()) {
             return;
         }
 

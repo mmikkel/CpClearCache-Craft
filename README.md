@@ -1,37 +1,11 @@
-# CP Clear Cache plugin for Craft CMS 3.x
+# CP Clear Cache plugin for Craft CMS 5.x
 
-Less clickin’ to get clearin’
+Less clickin’ to get clearin’! CP Clear Cache provides easy access to the native _Clear Caches_ utility.  
 
-![Screenshot](http://g.recordit.co/zZFb0rS7i0.gif)
+For users that doesn't have access to the Clear Caches utility, this plugin does absolutely nothing.  
+
+![Screenshot](screenshot.png)
 
 ## Requirements
 
-This plugin requires Craft CMS 3.7.0 or later.
-
-## Installation
-
-To install the plugin, follow these instructions.
-
-1. Open your terminal and go to your Craft project:
-
-        cd /path/to/project
-
-2. Then tell Composer to load the plugin:
-
-        composer require mmikkel/cp-clearcache
-
-3. In the Control Panel, go to Settings → Plugins and click the “Install” button for CP Clear Cache.
-
-## CP Clear Cache Overview
-
-CP Clear Cache adds a "Clear Caches" button/nav item to the main Control Panel nav – making it easier to quickly clear data and template caches from the CP.  
-
-**Note that CP Clear Caches will only add the nav item for users who have access to the Clear Caches utility.** You can control access to this utility via the permissions settings under Settings -> Users.  
-
-## Configuring CP Clear Cache
-
-Nothing to configure.
-
-## Using CP Clear Cache
-
-Click the "Clear Caches" menu button, check the caches you want to clear, and go for it.
+This plugin requires Craft CMS 5.0+

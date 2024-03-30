@@ -121,7 +121,12 @@
                 new Garnish.CheckboxSelect($checkboxes);
                 var checkedBoxes = Craft.getLocalStorage(_this.localStorageKey);
                 $checkboxes.find('input[type="checkbox"]').each(function () {
-                    $(this).prop('checked', checkedBoxes === undefined || checkedBoxes.indexOf(this.value) > -1).trigger('change');
+                    var checked = !checkedBoxes || checkedBoxes.indexOf(this.value) > -1;
+                    if (!checked && !!checkedBoxes && checkedBoxes.indexOf('*') > -1 && !!$(this).closest('fieldset.checkbox-select').eq(0).find('input[type="checkbox"][value="*"]').length) {
+                        // Not specifically checked, but "All" is checked
+                        checked = true;
+                    }
+                    $(this).prop('checked', checked).trigger('change');
                 });
             });
 

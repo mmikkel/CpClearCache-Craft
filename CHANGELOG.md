@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.3.1 - 2024-03-30
+### Fixed
+- Fixed a bug where newly added cache items could appear as unchecked, when the "All" option was checked ([#16](https://github.com/mmikkel/CpClearCache-Craft/issues/16))
+
 ## 1.3.0 - 2022-11-10
 ### Fixed
 - Fixed an issue where CP Clear Cache wouldn't work properly if the Control Panel Navigation was installed  
